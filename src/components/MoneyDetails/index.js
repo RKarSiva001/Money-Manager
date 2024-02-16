@@ -3,20 +3,8 @@ import {Component} from 'react'
 import './index.css'
 
 class MoneyDetails extends Component {
-  state = {
-    totalBalance: 0,
-    totalIncome: 0,
-    totalExpenses: 0,
-  }
-
-  //   const totalBalance = () => {
-  //       this.setState({totalBalance = totalIncome - totalExpenses})
-  //   }
-
-  const
-
   render() {
-    const {totalBalance, totalIncome, totalExpenses} = this.state
+    const {bal, inc, exp} = this.props
 
     return (
       <div className="money-details">
@@ -27,7 +15,7 @@ class MoneyDetails extends Component {
             alt="balance"
           />
           <p>Your Balance</p>
-          <p data-testid="balanceAmount">Rs {totalBalance}</p>
+          <p data-testid="balanceAmount">Rs {bal}</p>
         </div>
         <div className="income-container">
           <img
@@ -36,7 +24,7 @@ class MoneyDetails extends Component {
             alt="income"
           />
           <p>Your Income</p>
-          <p data-testid="incomeAmount">Rs {totalIncome}</p>
+          <p data-testid="incomeAmount">Rs {inc}</p>
         </div>
         <div className="expenses-container">
           <img
@@ -45,7 +33,7 @@ class MoneyDetails extends Component {
             alt="expenses"
           />
           <p>Your Expenses</p>
-          <p data-testid="expensesAmount">Rs {totalExpenses}</p>
+          <p data-testid="expensesAmount">Rs {exp}</p>
         </div>
       </div>
     )

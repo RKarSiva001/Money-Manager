@@ -23,6 +23,9 @@ class MoneyManager extends Component {
     titleInput: '',
     amountInput: '',
     transactionInputType: transactionTypeOptions[0].optionId,
+    totalBalance: 0,
+    totalIncome: 0,
+    totalExpenses: 0,
   }
 
   onChangeTitleInput = event => {
@@ -39,13 +42,21 @@ class MoneyManager extends Component {
 
   onChangeTransactionTypeInput = event => {
     this.setState({
-      transactionTypeInput: event.target.value,
+      transactionInputType: event.target.value,
     })
   }
 
   onAddTransaction = event => {
     event.preventDefault()
-    const {titleInput, amountInput, transactionInputType} = this.state
+    const {
+      titleInput,
+      amountInput,
+      transactionInputType,
+      transactionsList,
+      totalBalance,
+      totalIncome,
+      totalExpenses,
+    } = this.state
 
     const newTransaction = {
       id: v4(),
@@ -61,9 +72,28 @@ class MoneyManager extends Component {
       transactionTypeInput: transactionTypeOptions[0].displayText,
     }))
 
-    // if ()
-
     console.log(newTransaction)
+    console.log(transactionsList)
+    console.log(
+      titleInput,
+      amountInput,
+      transactionInputType,
+      totalBalance,
+      totalIncome,
+      totalExpenses,
+    )
+
+    // if (transactionInputType === transactionTypeOptions[0].optionId) {
+    //   this.setState(prevState => {
+    //     totalIncome: prevState.totalIncome + amountInput
+    //   })
+    //   this.setState({totalBalance: totalIncome - totalExpenses})
+    // } else {
+    //   this.setState(prevState => {
+    //     totalExpenses: prevState.totalExpenses + amountInput
+    //   })
+    //   this.setState({totalBalance: totalIncome - totalExpenses})
+    // }
   }
 
   deleteTransaction = id => {
@@ -78,14 +108,26 @@ class MoneyManager extends Component {
   }
 
   render() {
-    const {titleInput, amountInput, transactionsList} = this.state
+    const {
+      titleInput,
+      amountInput,
+      transactionTypeInput,
+      transactionsList,
+      totalBalance,
+      totalIncome,
+      totalExpenses,
+    } = this.state
 
     return (
       <div className="app-container">
         <div className="transaction-container">
           <h1 className="app-heading">Hi, Richard</h1>
           <p>Welcome back to your Money Manager</p>
-          <MoneyDetails />
+          <MoneyDetails
+            bal={totalBalance}
+            inc={totalIncome}
+            exp={totalExpenses}
+          />
           <div className="transaction-inputs">
             <h1>Add Transaction</h1>
             <form className="form" onSubmit={this.onAddTransaction}>
@@ -107,17 +149,20 @@ class MoneyManager extends Component {
                 value={amountInput}
                 onChange={this.onChangeAmountInput}
               />
-              <label htmlFor="transactionType">TYPE</label>
+              <p>Type</p>
               <select
                 onChange={this.onChangeTransactionTypeInput}
-                id="transactionType"
+                value={transactionTypeInput}
               >
-                <option value={transactionTypeOptions[0].optionId}>
-                  {transactionTypeOptions[0].displayText}
-                </option>
-                <option value={transactionTypeOptions[1].optionId}>
-                  {transactionTypeOptions[1].displayText}
-                </option>
+                {transactionTypeOptions.map(eachOption => (
+                  <option
+                    key={eachOption.optionId}
+                    value={eachOption.optionId}
+                    className="option"
+                  >
+                    {eachOption.displayText}
+                  </option>
+                ))}
               </select>
               <button type="submit" className="add-button">
                 Add
